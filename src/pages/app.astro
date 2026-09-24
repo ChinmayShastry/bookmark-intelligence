@@ -1,0 +1,20 @@
+---
+import SeoHead from '../layouts/SeoHead.astro';
+import '../styles/global.css';
+import App from '../components/App';
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <SeoHead
+      title="Your Bookmarks — Bookmark Intelligence"
+      description="Your local bookmark workspace."
+      path="/app"
+      noindex
+    />
+  </head>
+  <body class="h-screen overflow-hidden bg-white text-ink-900 dark:bg-ink-950 dark:text-ink-100">
+    <App client:only="react" />
+    <noscript>This application requires JavaScript to run entirely in your browser.</noscript>
+  </body>
+</html>
