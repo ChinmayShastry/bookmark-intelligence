@@ -1,7 +1,15 @@
 import { getDB, clearAllData as clearAllStores } from '../db/schema';
 import { buildDefaultCategories } from '../classifier/defaultCategories';
-import { DEFAULT_SETTINGS, type AppSettings, type Bookmark, type Category, type Collection, type Tag } from '../db/types';
-import { slugify } from '../utils/id';
+import {
+  DEFAULT_SETTINGS,
+  type AppSettings,
+  type BackupRecord,
+  type Bookmark,
+  type Category,
+  type Collection,
+  type Tag,
+} from '../db/types';
+import { slugify, createId } from '../utils/id';
 
 export interface AppState {
   status: 'loading' | 'ready';
@@ -11,6 +19,7 @@ export interface AppState {
   collections: Collection[];
   settings: AppSettings;
   metadata: Record<string, unknown>;
+  backups: BackupRecord[];
 }
 
 type Listener = () => void;
@@ -35,6 +44,7 @@ export class AppStore {
     collections: [],
     settings: DEFAULT_SETTINGS,
     metadata: {},
+    backups: [],
   };
   private listeners = new Set<Listener>();
   private initPromise: Promise<void> | null = null;
@@ -60,11 +70,12 @@ export class AppStore {
 
   private async loadFromDb(): Promise<void> {
     const db = await getDB();
-    const [bookmarks, tags, collections, metadataRows] = await Promise.all([
+    const [bookmarks, tags, collections, metadataRows, backups] = await Promise.all([
       db.getAll('bookmarks'),
       db.getAll('tags'),
       db.getAll('collections'),
       db.getAll('metadata'),
+      db.getAll('backups'),
     ]);
 
     let categories = await db.getAll('categories');
@@ -82,13 +93,28 @@ export class AppStore {
 
     const metadata = Object.fromEntries(metadataRows.map((row) => [row.key, row.value]));
 
-    this.setState({ status: 'ready', bookmarks, categories, tags, collections, settings, metadata });
+    this.setState({ status: 'ready', bookmarks, categories, tags, collections, settings, metadata, backups });
   }
 
   async setMetadata(key: string, value: unknown): Promise<void> {
     const db = await getDB();
     await db.put('metadata', { key, value });
     this.setState({ metadata: { ...this.state.metadata, [key]: value } });
+  }
+
+  async recordBackup(trigger: BackupRecord['trigger'] = 'manual'): Promise<BackupRecord> {
+    const record: BackupRecord = {
+      id: createId(),
+      createdAt: Date.now(),
+      bookmarkCount: this.state.bookmarks.length,
+      categoryCount: this.state.categories.length,
+      tagCount: this.state.tags.length,
+      trigger,
+    };
+    const db = await getDB();
+    await db.put('backups', record);
+    this.setState({ backups: [record, ...this.state.backups].slice(0, 20) });
+    return record;
   }
 
   private async writeBookmarksChunked(bookmarks: Bookmark[]): Promise<void> {
@@ -317,11 +343,13 @@ export class AppStore {
   async clearAllData(): Promise<void> {
     await clearAllStores();
     const categories = buildDefaultCategories();
-    const settings = { ...DEFAULT_SETTINGS };
+    // Clearing data is not a fresh install — keep onboardingCompleted so the
+    // user lands on the lightweight Empty State, not the first-run wizard.
+    const settings = { ...DEFAULT_SETTINGS, onboardingCompleted: true };
     const db = await getDB();
     const tx = db.transaction(['categories', 'settings'], 'readwrite');
     await Promise.all([...categories.map((c) => tx.objectStore('categories').put(c)), tx.objectStore('settings').put(settings), tx.done]);
-    this.setState({ bookmarks: [], categories, tags: [], collections: [], settings, metadata: {} });
+    this.setState({ bookmarks: [], categories, tags: [], collections: [], settings, metadata: {}, backups: [] });
   }
 
   async restoreFromBackup(data: RestoreData): Promise<void> {
@@ -343,6 +371,7 @@ export class AppStore {
       collections: data.collections,
       settings: data.settings,
       metadata: {},
+      backups: [],
     });
   }
 }

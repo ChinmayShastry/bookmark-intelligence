@@ -55,7 +55,6 @@ export interface AppSettings {
   autoTag: boolean;
   forgottenThresholdDays: number;
   onboardingCompleted: boolean;
-  duplicateTrackingParamsOnly: boolean;
 }
 
 export interface BackupRecord {
@@ -81,5 +80,4 @@ export const DEFAULT_SETTINGS: AppSettings = {
   autoTag: false,
   forgottenThresholdDays: 365,
   onboardingCompleted: false,
-  duplicateTrackingParamsOnly: true,
 };

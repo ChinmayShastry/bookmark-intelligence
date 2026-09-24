@@ -4,13 +4,14 @@ import { SafeExternalLink } from '../common/SafeExternalLink';
 import { OverflowMenu } from '../common/OverflowMenu';
 import type { Bookmark, Category, Tag } from '../../lib/db/types';
 
-export const BOOKMARK_ROW_HEIGHT = 60;
+export const ROW_HEIGHTS = { comfortable: 60, compact: 40 } as const;
 
 interface BookmarkCardProps {
   bookmark: Bookmark;
   categories: Category[];
   tags: Tag[];
   selected: boolean;
+  compact?: boolean;
   onToggleSelect: () => void;
   onOpenDetail: () => void;
   onToggleFavorite: () => void;
@@ -25,6 +26,7 @@ export function BookmarkCard({
   categories,
   tags,
   selected,
+  compact = false,
   onToggleSelect,
   onOpenDetail,
   onToggleFavorite,
@@ -43,7 +45,7 @@ export function BookmarkCard({
 
   return (
     <div
-      style={{ height: BOOKMARK_ROW_HEIGHT }}
+      style={{ height: compact ? ROW_HEIGHTS.compact : ROW_HEIGHTS.comfortable }}
       className="group flex items-center gap-3 border-b border-ink-100 px-3 dark:border-ink-800/70"
     >
       <input
@@ -56,19 +58,27 @@ export function BookmarkCard({
 
       <button type="button" onClick={onOpenDetail} className="flex min-w-0 flex-1 items-center gap-3 text-left">
         <Favicon icon={bookmark.icon} />
-        <div className="min-w-0 flex-1">
-          <p className="flex items-center gap-1.5 truncate text-sm font-medium text-ink-900 dark:text-white">
-            {bookmark.archived && (
-              <Archive size={12} className="shrink-0 text-ink-400" aria-label="Archived" />
-            )}
-            {bookmark.title || bookmark.url}
+        {compact ? (
+          <p className="flex min-w-0 items-center gap-1.5 truncate text-sm text-ink-800 dark:text-ink-100">
+            {bookmark.archived && <Archive size={11} className="shrink-0 text-ink-400" aria-label="Archived" />}
+            <span className="truncate font-medium">{bookmark.title || bookmark.url}</span>
+            <span className="shrink-0 text-xs text-ink-400">{bookmark.domain}</span>
           </p>
-          <p className="truncate text-xs text-ink-500 dark:text-ink-400">
-            {bookmark.domain}
-            {categoryNames[0] && <span> · {categoryNames[0]}</span>}
-            {bookmark.folder && <span className="hidden sm:inline"> · {bookmark.folder}</span>}
-          </p>
-        </div>
+        ) : (
+          <div className="min-w-0 flex-1">
+            <p className="flex items-center gap-1.5 truncate text-sm font-medium text-ink-900 dark:text-white">
+              {bookmark.archived && (
+                <Archive size={12} className="shrink-0 text-ink-400" aria-label="Archived" />
+              )}
+              {bookmark.title || bookmark.url}
+            </p>
+            <p className="truncate text-xs text-ink-500 dark:text-ink-400">
+              {bookmark.domain}
+              {categoryNames[0] && <span> · {categoryNames[0]}</span>}
+              {bookmark.folder && <span className="hidden sm:inline"> · {bookmark.folder}</span>}
+            </p>
+          </div>
+        )}
       </button>
 
       <div className="hidden max-w-[26%] flex-wrap items-center gap-1 lg:flex">

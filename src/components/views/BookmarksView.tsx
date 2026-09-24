@@ -4,7 +4,7 @@ import { useAppState, useAppStore } from '../../lib/store/hooks';
 import { searchBookmarks } from '../../lib/search';
 import { useDebouncedValue } from '../../lib/utils/useDebouncedValue';
 import { useVirtualList } from '../../lib/utils/useVirtualList';
-import { BookmarkCard, BOOKMARK_ROW_HEIGHT } from '../bookmarks/BookmarkCard';
+import { BookmarkCard, ROW_HEIGHTS } from '../bookmarks/BookmarkCard';
 import { BookmarkDetailPanel } from '../bookmarks/BookmarkDetailPanel';
 import { BookmarkFilterBar, DEFAULT_FILTERS, filtersToQuerySuffix, type BookmarkFilters } from '../bookmarks/BookmarkFilterBar';
 import { BulkActionBar } from '../bookmarks/BulkActionBar';
@@ -55,7 +55,9 @@ export function BookmarksView({ initialQuery, title, presetFilters, idFilter }: 
     [combinedQuery, bookmarks, categories, tags, settings.fuzzySensitivity, settings.forgottenThresholdDays]
   );
 
-  const { containerRef, range } = useVirtualList(results.length, BOOKMARK_ROW_HEIGHT);
+  const compact = settings.density === 'compact';
+  const rowHeight = compact ? ROW_HEIGHTS.compact : ROW_HEIGHTS.comfortable;
+  const { containerRef, range } = useVirtualList(results.length, rowHeight);
   const visible = results.slice(range.startIndex, range.endIndex);
   const detailBookmark = bookmarks.find((b) => b.id === detailId) ?? null;
 
@@ -104,6 +106,7 @@ export function BookmarksView({ initialQuery, title, presetFilters, idFilter }: 
                   bookmark={bookmark}
                   categories={categories}
                   tags={tags}
+                  compact={compact}
                   selected={selected.has(bookmark.id)}
                   onToggleSelect={() => toggleSelect(bookmark.id)}
                   onOpenDetail={() => setDetailId(bookmark.id)}

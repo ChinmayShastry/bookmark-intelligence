@@ -12,7 +12,6 @@ import { ShortcutsHelp } from './shell/ShortcutsHelp';
 import { ImportView } from './views/ImportView';
 import { OnboardingView } from './views/OnboardingView';
 import { EmptyStateView } from './views/EmptyStateView';
-import { PlaceholderView } from './views/PlaceholderView';
 import { DashboardView } from './views/DashboardView';
 import { BookmarksView } from './views/BookmarksView';
 import { CategoriesView } from './views/CategoriesView';
@@ -23,6 +22,9 @@ import { InsightsView } from './views/InsightsView';
 import { ForgottenView } from './views/ForgottenView';
 import { ReadingQueueView } from './views/ReadingQueueView';
 import { CollectionsView } from './views/CollectionsView';
+import { ExportView } from './views/ExportView';
+import { SettingsView } from './views/SettingsView';
+import { PrivacyCenterView } from './views/PrivacyCenterView';
 
 function isTypingTarget(target: EventTarget | null): boolean {
   const el = target as HTMLElement | null;
@@ -72,11 +74,11 @@ function ViewRouter({
     case 'categories':
       return <CategoriesView onNavigate={onNavigate} />;
     case 'export':
-      return <PlaceholderView title="Export" />;
+      return <ExportView />;
     case 'settings':
-      return <PlaceholderView title="Settings" />;
+      return <SettingsView onNavigate={onNavigate} />;
     case 'privacy-center':
-      return <PlaceholderView title="Privacy" />;
+      return <PrivacyCenterView />;
     default:
       return <DashboardView onNavigate={onNavigate} />;
   }
