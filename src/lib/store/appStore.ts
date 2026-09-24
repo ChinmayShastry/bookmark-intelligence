@@ -10,6 +10,7 @@ export interface AppState {
   tags: Tag[];
   collections: Collection[];
   settings: AppSettings;
+  metadata: Record<string, unknown>;
 }
 
 type Listener = () => void;
@@ -33,6 +34,7 @@ export class AppStore {
     tags: [],
     collections: [],
     settings: DEFAULT_SETTINGS,
+    metadata: {},
   };
   private listeners = new Set<Listener>();
   private initPromise: Promise<void> | null = null;
@@ -58,10 +60,11 @@ export class AppStore {
 
   private async loadFromDb(): Promise<void> {
     const db = await getDB();
-    const [bookmarks, tags, collections] = await Promise.all([
+    const [bookmarks, tags, collections, metadataRows] = await Promise.all([
       db.getAll('bookmarks'),
       db.getAll('tags'),
       db.getAll('collections'),
+      db.getAll('metadata'),
     ]);
 
     let categories = await db.getAll('categories');
@@ -77,7 +80,15 @@ export class AppStore {
       await db.put('settings', settings);
     }
 
-    this.setState({ status: 'ready', bookmarks, categories, tags, collections, settings });
+    const metadata = Object.fromEntries(metadataRows.map((row) => [row.key, row.value]));
+
+    this.setState({ status: 'ready', bookmarks, categories, tags, collections, settings, metadata });
+  }
+
+  async setMetadata(key: string, value: unknown): Promise<void> {
+    const db = await getDB();
+    await db.put('metadata', { key, value });
+    this.setState({ metadata: { ...this.state.metadata, [key]: value } });
   }
 
   private async writeBookmarksChunked(bookmarks: Bookmark[]): Promise<void> {
@@ -301,7 +312,7 @@ export class AppStore {
     const db = await getDB();
     const tx = db.transaction(['categories', 'settings'], 'readwrite');
     await Promise.all([...categories.map((c) => tx.objectStore('categories').put(c)), tx.objectStore('settings').put(settings), tx.done]);
-    this.setState({ bookmarks: [], categories, tags: [], collections: [], settings });
+    this.setState({ bookmarks: [], categories, tags: [], collections: [], settings, metadata: {} });
   }
 
   async restoreFromBackup(data: RestoreData): Promise<void> {
@@ -322,6 +333,7 @@ export class AppStore {
       tags: data.tags,
       collections: data.collections,
       settings: data.settings,
+      metadata: {},
     });
   }
 }

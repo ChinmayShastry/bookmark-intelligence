@@ -15,6 +15,10 @@ import { EmptyStateView } from './views/EmptyStateView';
 import { PlaceholderView } from './views/PlaceholderView';
 import { DashboardView } from './views/DashboardView';
 import { BookmarksView } from './views/BookmarksView';
+import { CategoriesView } from './views/CategoriesView';
+import { TagsView } from './views/TagsView';
+import { DuplicatesView } from './views/DuplicatesView';
+import { DomainsView } from './views/DomainsView';
 
 function isTypingTarget(target: EventTarget | null): boolean {
   const el = target as HTMLElement | null;
@@ -54,15 +58,15 @@ function ViewRouter({
     case 'insights':
       return <PlaceholderView title="Insights" />;
     case 'duplicates':
-      return <PlaceholderView title="Duplicates" />;
+      return <DuplicatesView />;
     case 'forgotten':
       return <PlaceholderView title="Forgotten" />;
     case 'domains':
-      return <PlaceholderView title="Domains" />;
+      return <DomainsView onNavigate={onNavigate} />;
     case 'tags':
-      return <PlaceholderView title="Tags" />;
+      return <TagsView onNavigate={onNavigate} />;
     case 'categories':
-      return <PlaceholderView title="Categories" />;
+      return <CategoriesView onNavigate={onNavigate} />;
     case 'export':
       return <PlaceholderView title="Export" />;
     case 'settings':
