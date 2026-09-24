@@ -129,8 +129,10 @@ This is a fully static site (`output: 'static'` in `astro.config.mjs`) — `npm 
 `dist/`, deployable as-is to Vercel, Netlify, Cloudflare Pages, or GitHub Pages. No environment variables,
 no server, no adapter needed.
 
-Before deploying to a real domain, update `site` in `astro.config.mjs` and the sitemap URLs in
-`public/sitemap.xml` from the placeholder `https://bookmark-intelligence.pages.dev`.
+**Live on Vercel:** https://bookmark-intelligence.vercel.app — the Vercel project is linked directly to
+this repository's `main` branch, so every push redeploys automatically. `site` in `astro.config.mjs` and
+the URLs in `public/sitemap.xml`/`public/robots.txt` point at that domain; update them if you move to a
+custom domain.
 
 ## Known limitations / honest scope notes
 

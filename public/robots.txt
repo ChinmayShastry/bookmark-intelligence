@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 Disallow: /app
 
-Sitemap: https://bookmark-intelligence.pages.dev/sitemap.xml
+Sitemap: https://bookmark-intelligence.vercel.app/sitemap.xml
