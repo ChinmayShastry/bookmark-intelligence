@@ -75,7 +75,7 @@ export function Sidebar({ currentView, onNavigate, storageLabel }: SidebarProps)
           <Shield size={16} aria-hidden="true" />
           Privacy
         </button>
-        <div className="flex items-center gap-2.5 px-3 py-2 text-xs text-ink-400 dark:text-ink-500">
+        <div className="flex items-center gap-2.5 px-3 py-2 text-xs text-ink-500 dark:text-ink-400">
           <HardDrive size={14} aria-hidden="true" />
           <span>
             {bookmarkCount.toLocaleString()} bookmarks{storageLabel ? ` · ${storageLabel}` : ''}

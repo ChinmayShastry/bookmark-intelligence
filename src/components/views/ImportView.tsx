@@ -126,7 +126,7 @@ export function ImportView({ onFinished }: ImportViewProps) {
               }}
             />
           </div>
-          <p className="mt-3 flex items-center justify-center gap-1.5 text-xs text-ink-400 dark:text-ink-500">
+          <p className="mt-3 flex items-center justify-center gap-1.5 text-xs text-ink-500 dark:text-ink-400">
             <Lock size={12} aria-hidden="true" />
             Your bookmark file is processed entirely on this device — it is never uploaded.
           </p>

@@ -113,7 +113,7 @@ export function OnboardingView({ onComplete }: OnboardingViewProps) {
                 ) : (
                   <span className="h-4 w-4 shrink-0 rounded-full border-2 border-ink-200 dark:border-ink-700" />
                 )}
-                <span className={index < visibleSteps ? 'text-ink-800 dark:text-ink-100' : 'text-ink-400 dark:text-ink-500'}>
+                <span className={index < visibleSteps ? 'text-ink-800 dark:text-ink-100' : 'text-ink-500 dark:text-ink-400'}>
                   {label}
                 </span>
               </div>

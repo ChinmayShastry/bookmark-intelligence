@@ -21,7 +21,12 @@
   --color-ink-100: #eeeef0;
   --color-ink-200: #d9d9de;
   --color-ink-300: #b8b8c2;
-  --color-ink-400: #91919e;
+  /* Darker than the dark-mode value on purpose: #91919e only reaches ~3.2:1
+     against white, failing WCAG AA text contrast (4.5:1). This holds ~5:1
+     even against the app's off-white card backgrounds (ink-50/ink-100);
+     the lighter tone is restored for dark backgrounds below, where it
+     already passes comfortably. */
+  --color-ink-400: #6b6b7a;
   --color-ink-500: #717180;
   --color-ink-600: #5a5a68;
   --color-ink-700: #494954;
@@ -53,6 +58,7 @@
 
 :root[data-theme="dark"] {
   color-scheme: dark;
+  --color-ink-400: #91919e;
 }
 
 @layer base {

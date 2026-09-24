@@ -95,6 +95,7 @@ export function DuplicatesView() {
                         name={`keep-${group.normalizedUrl}`}
                         checked={chosenKeep === item.id}
                         onChange={() => setKeepChoice((prev) => ({ ...prev, [group.normalizedUrl]: item.id }))}
+                        aria-label={`Keep ${item.url}`}
                         className="h-3.5 w-3.5"
                       />
                       <span className="flex-1 truncate text-ink-600 dark:text-ink-300">{item.url}</span>

@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1200" y2="630" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#161034"/>
+      <stop offset="1" stop-color="#241255"/>
+    </linearGradient>
+    <linearGradient id="mark" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#9c85ff"/>
+      <stop offset="1" stop-color="#6938f2"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+
+  <g transform="translate(100,120)">
+    <rect width="120" height="120" rx="28" fill="url(#mark)"/>
+    <path d="M32 26h56a4 4 0 0 1 4 4v68l-32-20-32 20V30a4 4 0 0 1 4-4Z" fill="#161034"/>
+    <circle cx="46" cy="52" r="4.5" fill="#f4f3ff"/>
+    <circle cx="70" cy="44" r="4.5" fill="#f4f3ff"/>
+    <circle cx="62" cy="64" r="4.5" fill="#f4f3ff"/>
+    <path d="M46 52 70 44M46 52 62 64M70 44 62 64" stroke="#f4f3ff" stroke-width="2.4" stroke-linecap="round"/>
+  </g>
+
+  <text x="100" y="330" font-family="ui-sans-serif, system-ui, sans-serif" font-size="64" font-weight="700" fill="#ffffff">
+    Bookmark Intelligence
+  </text>
+  <text x="100" y="390" font-family="ui-sans-serif, system-ui, sans-serif" font-size="30" fill="#c4bdea">
+    Turn your bookmark chaos into organized knowledge.
+  </text>
+
+  <g transform="translate(100, 440)" font-family="ui-sans-serif, system-ui, sans-serif" font-size="22" fill="#9c85ff">
+    <text x="0" y="0">No account</text>
+    <text x="200" y="0">No uploads</text>
+    <text x="410" y="0">No AI API</text>
+    <text x="610" y="0">100% local</text>
+  </g>
+</svg>
