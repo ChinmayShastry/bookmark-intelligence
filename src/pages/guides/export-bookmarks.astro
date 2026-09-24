@@ -1,0 +1,33 @@
+---
+import ArticleLayout from '../../layouts/ArticleLayout.astro';
+import { EXPORT_STEPS } from '../../lib/content/exportSteps';
+---
+<ArticleLayout
+  title="How to Export Your Bookmarks — Bookmark Intelligence"
+  description="Step-by-step instructions to export bookmarks as an HTML file from Chrome, Edge, Firefox, Brave, and Safari."
+  path="/guides/export-bookmarks"
+  eyebrow="Guide"
+  heading="How to export your bookmarks"
+  intro="Every major browser can export your bookmarks as a single HTML file. It's the same format across browsers, so exporting takes under a minute wherever you're coming from."
+>
+  {EXPORT_STEPS.map(({ browser, steps }) => (
+    <div>
+      <h2>{browser}</h2>
+      <ol class="list-decimal space-y-1 pl-5">
+        {steps.map((step) => <li>{step}</li>)}
+      </ol>
+    </div>
+  ))}
+
+  <h2>What's actually in the file</h2>
+  <p>
+    The exported HTML follows the "Netscape Bookmark File" format — a decades-old, still-current standard.
+    Folders become <code>&lt;H3&gt;</code> headings, links become <code>&lt;A HREF&gt;</code> tags, and Firefox adds
+    a <code>TAGS</code> attribute for any tags you've applied there. Because every browser uses the same structure,
+    a file exported from Chrome imports cleanly into a Firefox-aware tool, and vice versa.
+  </p>
+  <p>
+    Once you have the file, it never needs to be uploaded anywhere — Bookmark Intelligence reads it directly
+    from your device using the browser's File API.
+  </p>
+</ArticleLayout>

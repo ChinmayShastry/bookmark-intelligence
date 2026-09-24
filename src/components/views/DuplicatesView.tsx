@@ -25,7 +25,7 @@ export function DuplicatesView() {
     [bookmarks, ignored]
   );
 
-  const keepOnly = async (normalizedUrl: string, keepId: string, items: Bookmark[]) => {
+  const keepOnly = async (keepId: string, items: Bookmark[]) => {
     await store.deleteBookmarks(items.filter((b) => b.id !== keepId).map((b) => b.id));
   };
 
@@ -108,21 +108,21 @@ export function DuplicatesView() {
                 <div className="mt-3 flex flex-wrap gap-2">
                   <button
                     type="button"
-                    onClick={() => keepOnly(group.normalizedUrl, newest(group.items).id, group.items)}
+                    onClick={() => keepOnly(newest(group.items).id, group.items)}
                     className="rounded-lg border border-ink-200 px-2.5 py-1.5 text-xs font-medium text-ink-600 hover:bg-ink-50 dark:border-ink-700 dark:text-ink-300 dark:hover:bg-ink-800"
                   >
                     Keep newest
                   </button>
                   <button
                     type="button"
-                    onClick={() => keepOnly(group.normalizedUrl, oldest(group.items).id, group.items)}
+                    onClick={() => keepOnly(oldest(group.items).id, group.items)}
                     className="rounded-lg border border-ink-200 px-2.5 py-1.5 text-xs font-medium text-ink-600 hover:bg-ink-50 dark:border-ink-700 dark:text-ink-300 dark:hover:bg-ink-800"
                   >
                     Keep oldest
                   </button>
                   <button
                     type="button"
-                    onClick={() => keepOnly(group.normalizedUrl, chosenKeep, group.items)}
+                    onClick={() => keepOnly(chosenKeep, group.items)}
                     className="rounded-lg border border-ink-200 px-2.5 py-1.5 text-xs font-medium text-ink-600 hover:bg-ink-50 dark:border-ink-700 dark:text-ink-300 dark:hover:bg-ink-800"
                   >
                     Keep selected

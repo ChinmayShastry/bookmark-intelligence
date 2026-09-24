@@ -1,0 +1,47 @@
+---
+import ArticleLayout from '../layouts/ArticleLayout.astro';
+---
+<ArticleLayout
+  title="Duplicate Bookmark Finder — Bookmark Intelligence"
+  description="How Bookmark Intelligence finds duplicate bookmarks conservatively, without merging pages that actually differ."
+  path="/duplicate-bookmark-finder"
+  eyebrow="Guide"
+  heading="Finding duplicate bookmarks without breaking real ones"
+  intro="Saved the same article twice? Bookmarked a repo from two different tabs weeks apart? Duplicate detection has to be careful — too aggressive, and it merges pages that are actually different."
+>
+  <h2>What counts as "the same" URL</h2>
+  <p>
+    Two bookmarks are treated as duplicates when their <strong>normalized</strong> URLs match. Normalization is
+    intentionally narrow:
+  </p>
+  <ul>
+    <li>A trailing slash is ignored (<code>/page</code> and <code>/page/</code> match).</li>
+    <li>The <code>#fragment</code> is ignored.</li>
+    <li><code>http</code> vs <code>https</code> is ignored.</li>
+    <li>
+      A short, explicit list of tracking parameters is stripped — <code>utm_source</code>,
+      <code>fbclid</code>, <code>gclid</code>, and similar. Everything else in the query string is kept.
+    </li>
+  </ul>
+  <p>
+    That last point matters most. <code>/search?q=cats</code> and <code>/search?q=dogs</code> are never merged,
+    because the query string changes what's actually on the page. Being conservative means the tool occasionally
+    misses a duplicate a human would recognize, but it never silently deletes a bookmark you meant to keep separate.
+  </p>
+
+  <h2>What you can do with a duplicate group</h2>
+  <p>Once bookmarks are grouped, the Duplicates page gives you four real actions, not just a delete button:</p>
+  <ul>
+    <li><strong>Keep newest</strong> — removes every copy except the most recently added.</li>
+    <li><strong>Keep oldest</strong> — removes every copy except the first one you saved.</li>
+    <li><strong>Keep selected</strong> — you pick exactly which copy survives.</li>
+    <li>
+      <strong>Merge</strong> — keeps the newest copy, but unions the tags and categories from every copy onto
+      it and concatenates any notes, so you don't lose organization work done on a copy you're about to remove.
+    </li>
+  </ul>
+  <p>
+    A group can also be <strong>ignored</strong> if it isn't actually a duplicate to you — that choice is
+    remembered.
+  </p>
+</ArticleLayout>

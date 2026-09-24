@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://bookmark-intelligence.pages.dev/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>
+  <url><loc>https://bookmark-intelligence.pages.dev/privacy</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://bookmark-intelligence.pages.dev/bookmark-manager</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://bookmark-intelligence.pages.dev/bookmark-organizer</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://bookmark-intelligence.pages.dev/bookmark-cleaner</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://bookmark-intelligence.pages.dev/duplicate-bookmark-finder</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://bookmark-intelligence.pages.dev/guides</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://bookmark-intelligence.pages.dev/guides/export-bookmarks</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://bookmark-intelligence.pages.dev/guides/personal-knowledge-base</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+</urlset>

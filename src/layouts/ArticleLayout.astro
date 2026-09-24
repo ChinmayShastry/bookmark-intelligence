@@ -1,0 +1,66 @@
+---
+import MarketingLayout from './MarketingLayout.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  path: string;
+  eyebrow?: string;
+  heading: string;
+  intro: string;
+}
+
+const { title, description, path, eyebrow, heading, intro } = Astro.props;
+---
+<MarketingLayout title={title} description={description} path={path}>
+  <article class="mx-auto max-w-2xl px-6 py-16">
+    {eyebrow && (
+      <p class="text-xs font-semibold uppercase tracking-wide text-brand-600 dark:text-brand-400">{eyebrow}</p>
+    )}
+    <h1 class="mt-2 text-3xl font-bold tracking-tight text-ink-950 dark:text-white">{heading}</h1>
+    <p class="mt-4 text-base text-ink-600 dark:text-ink-300">{intro}</p>
+
+    <div class="prose-content mt-8 space-y-4 text-sm leading-relaxed text-ink-700 dark:text-ink-300">
+      <slot />
+    </div>
+
+    <div class="mt-10 flex flex-col gap-3 rounded-2xl border border-ink-100 bg-ink-50/60 p-6 sm:flex-row sm:items-center sm:justify-between dark:border-ink-800 dark:bg-ink-900/40">
+      <p class="text-sm font-medium text-ink-800 dark:text-ink-100">Ready to organize your own bookmarks?</p>
+      <div class="flex gap-2">
+        <a href="/app" class="rounded-full bg-brand-600 px-4 py-2 text-sm font-semibold text-white hover:bg-brand-700">
+          Open App
+        </a>
+        <a
+          href="/app?demo=1"
+          class="rounded-full border border-ink-200 px-4 py-2 text-sm font-semibold text-ink-700 dark:border-ink-700 dark:text-ink-200"
+        >
+          Try Demo
+        </a>
+      </div>
+    </div>
+  </article>
+</MarketingLayout>
+
+<style>
+  .prose-content :global(h2) {
+    margin-top: 2rem;
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: inherit;
+  }
+  .prose-content :global(ul) {
+    list-style: disc;
+    padding-left: 1.25rem;
+    display: grid;
+    gap: 0.375rem;
+  }
+  .prose-content :global(strong) {
+    font-weight: 600;
+  }
+  .prose-content :global(code) {
+    background: rgba(148, 128, 255, 0.12);
+    border-radius: 0.25rem;
+    padding: 0.1rem 0.35rem;
+    font-size: 0.85em;
+  }
+</style>

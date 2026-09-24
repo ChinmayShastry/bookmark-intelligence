@@ -8,6 +8,7 @@ import {
   type ImportPreview,
 } from '../../lib/import/importBookmarks';
 import { InvalidBookmarkFileError } from '../../lib/parser/bookmarkHtml';
+import { EXPORT_STEPS } from '../../lib/content/exportSteps';
 
 type Stage =
   | { kind: 'idle' }
@@ -20,41 +21,6 @@ type Stage =
 interface ImportViewProps {
   onFinished: (opts: { review: boolean }) => void;
 }
-
-const EXPORT_STEPS: Array<{ browser: string; steps: string[] }> = [
-  {
-    browser: 'Chrome',
-    steps: [
-      'Open Bookmarks → Bookmark Manager (Ctrl/Cmd + Shift + O)',
-      'Click the ⋮ menu in the top right',
-      'Choose "Export bookmarks" and save the HTML file',
-    ],
-  },
-  {
-    browser: 'Edge',
-    steps: [
-      'Open Favorites → Manage favorites',
-      'Click the ⋯ menu',
-      'Choose "Export favorites" and save the HTML file',
-    ],
-  },
-  {
-    browser: 'Firefox',
-    steps: [
-      'Open the Library (Ctrl/Cmd + Shift + O)',
-      'Click "Import and Backup" → "Export Bookmarks to HTML..."',
-      'Save the file',
-    ],
-  },
-  {
-    browser: 'Brave',
-    steps: ['Open Bookmarks → Bookmark Manager', 'Click the ⋮ menu', 'Choose "Export bookmarks" and save the HTML file'],
-  },
-  {
-    browser: 'Safari',
-    steps: ['Open File → Export Bookmarks…', 'Save the HTML file'],
-  },
-];
 
 function isValidExtension(file: File): boolean {
   const name = file.name.toLowerCase();

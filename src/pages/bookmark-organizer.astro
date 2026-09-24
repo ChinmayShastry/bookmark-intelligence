@@ -1,0 +1,47 @@
+---
+import ArticleLayout from '../layouts/ArticleLayout.astro';
+---
+<ArticleLayout
+  title="Bookmark Organizer — Bookmark Intelligence"
+  description="How to actually organize hundreds or thousands of browser bookmarks: automatic categories, tags, and folder cleanup, all local."
+  path="/bookmark-organizer"
+  eyebrow="Guide"
+  heading="A bookmark organizer that does the sorting for you"
+  intro="Most people don't have a bookmark problem — they have a sorting problem. You saved things faster than you ever organized them. Here's how automatic organization actually works."
+>
+  <h2>Why folders alone don't scale</h2>
+  <p>
+    Browser folders are manual: you decide the folder at save time, and that decision has to be right forever. In
+    practice, folders drift into "Misc," "Stuff," and "New folder" within a few months, because sorting takes energy
+    you don't have in the moment you're saving a link.
+  </p>
+
+  <h2>What a category engine does instead</h2>
+  <p>
+    Bookmark Intelligence reads each bookmark's domain, title, URL path, and existing folder name, and scores it
+    against a configurable list of categories (AI, Programming, Design, Finance, Career, and 14 more by default).
+    A bookmark can belong to more than one category — a GitHub repo about LangChain reasonably lands in both
+    <strong>Development</strong> and <strong>AI &amp; Machine Learning</strong>.
+  </p>
+  <p>This runs entirely as a local, deterministic algorithm:</p>
+  <ul>
+    <li>No bookmark title, URL, or note is ever sent anywhere to be classified.</li>
+    <li>You can see and edit exactly which keywords and domains map to which category.</li>
+    <li>Categories can be renamed, merged, or deleted at any time — nothing is hard-coded into the UI.</li>
+  </ul>
+
+  <h2>Folders become a suggestion, not a cage</h2>
+  <p>
+    Instead of forcing you to re-file every bookmark into a new folder structure, Bookmark Intelligence flags
+    generically-named folders (like "Misc" or "Old Bookmarks") and shows you what category their contents mostly
+    fall into — a suggestion you can act on or ignore, never an automatic move.
+  </p>
+
+  <h2>Tags for the specific, categories for the broad</h2>
+  <p>
+    Categories answer "what kind of thing is this." Tags answer "what specific topic." A bookmark can be tagged
+    <code>#LangChain</code>, <code>#RAG</code>, and <code>#Python</code> while sitting in the AI category — tag
+    suggestions are generated the same way, from a separate, more specific keyword list, and you confirm them
+    before they're applied unless you turn on automatic tagging.
+  </p>
+</ArticleLayout>

@@ -1,7 +1,8 @@
 import { useEffect, useMemo, useState } from 'react';
-import { X, Copy, Star, Archive, ArchiveRestore, Trash2, BookOpenCheck, Plus, Sparkles, Layers } from 'lucide-react';
+import { X, Copy, Star, Archive, ArchiveRestore, Trash2, BookOpenCheck, Plus, Sparkles, Layers, Wifi, WifiOff, HelpCircle } from 'lucide-react';
 import { useAppState, useAppStore } from '../../lib/store/hooks';
 import { classifyBookmark } from '../../lib/classifier';
+import { checkLinkReachability, type LinkCheckResult } from '../../lib/linkcheck';
 import { SafeExternalLink } from '../common/SafeExternalLink';
 import { Favicon } from '../common/Favicon';
 import type { Bookmark } from '../../lib/db/types';
@@ -20,12 +21,14 @@ export function BookmarkDetailPanel({ bookmark, onClose }: BookmarkDetailPanelPr
   const [notes, setNotes] = useState('');
   const [tagDraft, setTagDraft] = useState('');
   const [copied, setCopied] = useState(false);
+  const [linkCheck, setLinkCheck] = useState<'idle' | 'checking' | LinkCheckResult>('idle');
 
   useEffect(() => {
     setTitle(bookmark?.title ?? '');
     setNotes(bookmark?.notes ?? '');
     setTagDraft('');
     setCopied(false);
+    setLinkCheck('idle');
   }, [bookmark?.id]);
 
   useEffect(() => {
@@ -122,6 +125,33 @@ export function BookmarkDetailPanel({ bookmark, onClose }: BookmarkDetailPanelPr
           <p className="mt-2 break-all rounded-md bg-ink-50 px-2 py-1.5 text-xs text-ink-500 dark:bg-ink-900 dark:text-ink-400">
             {bookmark.url}
           </p>
+
+          <div className="mt-1.5 flex items-center gap-1.5 text-xs">
+            <button
+              type="button"
+              onClick={async () => {
+                setLinkCheck('checking');
+                setLinkCheck(await checkLinkReachability(bookmark.url));
+              }}
+              disabled={linkCheck === 'checking'}
+              className="flex items-center gap-1 text-ink-400 hover:text-ink-700 disabled:opacity-60 dark:hover:text-ink-200"
+            >
+              <Wifi size={11} aria-hidden="true" />
+              {linkCheck === 'checking' ? 'Checking…' : 'Check link'}
+            </button>
+            {linkCheck === 'unreachable' && (
+              <span className="flex items-center gap-1 text-red-500">
+                <WifiOff size={11} aria-hidden="true" />
+                Could not reach this site from your browser
+              </span>
+            )}
+            {linkCheck === 'unknown' && (
+              <span className="flex items-center gap-1 text-ink-400">
+                <HelpCircle size={11} aria-hidden="true" />
+                Unable to verify from browser (cross-origin)
+              </span>
+            )}
+          </div>
 
           <div className="mt-3 flex gap-2">
             <SafeExternalLink

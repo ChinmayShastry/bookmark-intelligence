@@ -1,0 +1,60 @@
+---
+import MarketingLayout from '../../layouts/MarketingLayout.astro';
+
+const GUIDES = [
+  {
+    href: '/guides/export-bookmarks',
+    title: 'How to Export Your Bookmarks',
+    body: 'Step-by-step for Chrome, Edge, Firefox, Brave, and Safari.',
+  },
+  {
+    href: '/bookmark-organizer',
+    title: 'How to Organize Thousands of Bookmarks',
+    body: 'Why folders alone stop working, and how automatic categories help.',
+  },
+  {
+    href: '/duplicate-bookmark-finder',
+    title: 'How to Find Duplicate Bookmarks',
+    body: 'What actually counts as a duplicate, and how to resolve a group safely.',
+  },
+  {
+    href: '/bookmark-cleaner',
+    title: 'How to Clean Up 5,000 Bookmarks',
+    body: 'A concrete, ordered process: duplicates, archiving, forgotten bookmarks, folders.',
+  },
+  {
+    href: '/guides/personal-knowledge-base',
+    title: 'How to Build a Personal Knowledge Base from Bookmarks',
+    body: 'Treating what you save as a searchable second brain, not a junk drawer.',
+  },
+  {
+    href: '/bookmark-manager',
+    title: 'Chrome vs Firefox Bookmark Management',
+    body: 'Both export the same underlying format — here’s what that means for you.',
+  },
+];
+---
+<MarketingLayout
+  title="Guides — Bookmark Intelligence"
+  description="Practical guides on exporting, organizing, deduplicating, and cleaning up browser bookmarks."
+  path="/guides"
+>
+  <div class="mx-auto max-w-3xl px-6 py-16">
+    <h1 class="text-3xl font-bold tracking-tight text-ink-950 dark:text-white">Guides</h1>
+    <p class="mt-3 text-base text-ink-600 dark:text-ink-300">
+      Practical, specific write-ups — not keyword filler. Each one explains something we think is genuinely
+      useful to know, whether or not you use Bookmark Intelligence.
+    </p>
+    <div class="mt-8 grid gap-4 sm:grid-cols-2">
+      {GUIDES.map((g) => (
+        <a
+          href={g.href}
+          class="rounded-xl border border-ink-100 p-5 transition hover:border-brand-200 hover:shadow-sm dark:border-ink-800"
+        >
+          <h2 class="text-sm font-semibold text-ink-900 dark:text-white">{g.title}</h2>
+          <p class="mt-1.5 text-xs text-ink-500 dark:text-ink-400">{g.body}</p>
+        </a>
+      ))}
+    </div>
+  </div>
+</MarketingLayout>

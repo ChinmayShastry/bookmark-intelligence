@@ -1,0 +1,41 @@
+---
+import ArticleLayout from '../layouts/ArticleLayout.astro';
+---
+<ArticleLayout
+  title="Bookmark Manager — Bookmark Intelligence"
+  description="A browser bookmark manager that runs entirely on your device: import, search, categorize, and clean up thousands of bookmarks with no account and no cloud database."
+  path="/bookmark-manager"
+  eyebrow="Overview"
+  heading="A bookmark manager that treats your bookmarks like a knowledge base"
+  intro="Most 'bookmark manager' tools are really just a nicer folder tree. This one is built around the idea that your bookmarks are a searchable personal knowledge base — they just haven't been organized yet."
+>
+  <h2>What it does</h2>
+  <ul>
+    <li><strong>Import</strong> — reads your browser's exported bookmark HTML file, locally, in a Web Worker so it never freezes the page even at 10,000+ bookmarks.</li>
+    <li><strong>Organize</strong> — a deterministic classifier suggests categories and tags from each bookmark's domain, title, and URL.</li>
+    <li><strong>Search</strong> — instant fuzzy search plus operators (<code>tag:ai</code>, <code>domain:github.com</code>, <code>before:2024-01-01</code>) and smart keywords (<code>duplicates</code>, <code>untagged</code>, <code>recent</code>).</li>
+    <li><strong>Analyze</strong> — a transparent Bookmark Health score, category and domain breakdowns, and a monthly growth chart.</li>
+    <li><strong>Rediscover</strong> — forgotten bookmarks resurface with a one-click keep/archive/delete decision.</li>
+  </ul>
+
+  <h2>What it deliberately doesn't do</h2>
+  <p>
+    There is no account, no sign-in, and no server. Your bookmark file is read with the browser's File API and never
+    uploaded. There is no AI API anywhere in the classification or search pipeline — everything is a local,
+    inspectable algorithm. Nothing about what you bookmark is tracked.
+  </p>
+
+  <h2>Where your data actually lives</h2>
+  <p>
+    Everything — bookmarks, categories, tags, notes, collections, and settings — is stored in this
+    browser's IndexedDB. It survives closing the tab and restarting the browser. It does not sync to another
+    device on its own; you can always export a full JSON backup and bring it with you.
+  </p>
+
+  <h2>Works with your existing browser</h2>
+  <p>
+    Chrome, Edge, Brave, and Firefox all export bookmarks in the same underlying "Netscape Bookmark File" HTML
+    format, and Safari's HTML export uses the same structure — so importing from any of them works the same
+    way here.
+  </p>
+</ArticleLayout>

@@ -1,0 +1,57 @@
+---
+import ArticleLayout from '../layouts/ArticleLayout.astro';
+---
+<ArticleLayout
+  title="Bookmark Cleaner — Bookmark Intelligence"
+  description="A practical process for cleaning up thousands of browser bookmarks: duplicates, empty folders, untitled links, and forgotten saves."
+  path="/bookmark-cleaner"
+  eyebrow="Guide"
+  heading="How to actually clean up 5,000 bookmarks"
+  intro="Cleaning bookmarks usually stalls because there's no clear starting point. Here's the order that actually works, and what each step catches."
+>
+  <h2>1. Import and see the damage honestly</h2>
+  <p>
+    Before touching anything, import your bookmark HTML export and look at the numbers: total bookmarks, duplicate
+    URLs, empty folders, and bookmarks with no title. Seeing "143 duplicates, 27 empty folders, 94 untitled" turns a
+    vague feeling of clutter into a concrete list.
+  </p>
+
+  <h2>2. Resolve duplicates first</h2>
+  <p>
+    Duplicates are the highest-leverage cleanup because removing them is nearly risk-free — you're not losing
+    information, just copies of it. Keep newest, keep oldest, or merge (which preserves tags and notes from every
+    copy onto the one you keep). See the <a href="/duplicate-bookmark-finder" class="text-brand-600 dark:text-brand-400 underline underline-offset-2">duplicate finder guide</a> for exactly how matching works.
+  </p>
+
+  <h2>3. Archive, don't delete, when unsure</h2>
+  <p>
+    Archiving removes a bookmark from your everyday views without destroying it — it stays searchable. This
+    matters for the bookmarks you're not sure about: old job listings, a conference talk from three years ago,
+    a tool you might revisit. Delete is for things you're certain you'll never need again.
+  </p>
+
+  <h2>4. Deal with "forgotten" bookmarks deliberately</h2>
+  <p>
+    Bookmarks older than a year (or two, or three — the threshold is yours to set) that you haven't touched
+    are shown one at a time with a simple choice: <strong>still useful</strong> (keep it, and it won't resurface
+    again soon), <strong>archive</strong>, or <strong>delete</strong>. Working through even 50 of these a week
+    clears a backlog faster than trying to do it all at once.
+  </p>
+
+  <h2>5. Let categories replace folder structure going forward</h2>
+  <p>
+    Folders from your browser export are kept as read-only history, but new organization happens through categories
+    and tags — which can be renamed, merged, and re-applied without re-filing every bookmark by hand. Generic
+    folders like "Misc" or "New folder" are flagged with a suggested category, but nothing moves automatically.
+  </p>
+
+  <h2>A note on dead links</h2>
+  <p>
+    Browser security prevents a static, local-only app from reliably checking whether a URL is still live at scale
+    — there's no backend crawler here on purpose. A bookmark's detail panel has an optional, one-at-a-time
+    "Check link" button: it can tell you a request failed outright (the site is unreachable from your network right
+    now), but a cross-origin site that doesn't send CORS headers — most of the web — can't have its real
+    status read back by the browser at all. In that case it's labeled "unable to verify from browser," never
+    guessed at as dead or alive.
+  </p>
+</ArticleLayout>

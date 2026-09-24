@@ -99,6 +99,14 @@ export default function App() {
     void appStore.init();
   }, []);
 
+  useEffect(() => {
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/sw.js').catch(() => {
+        // Offline shell is a progressive enhancement — the app works fine without it.
+      });
+    }
+  }, []);
+
   useThemeSync();
 
   // A marketing-page "Try Demo" link (/app?demo=1) should feel instant —
