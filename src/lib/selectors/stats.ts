@@ -120,9 +120,7 @@ export function computeHealthScore(
   const tagging = Math.round(20 * (tagged / total));
 
   const cutoff = Date.now() - forgottenThresholdDays * DAY_MS;
-  const forgotten = bookmarks.filter(
-    (b) => !b.favorite && !b.archived && (b.dateAdded ?? b.importedAt) < cutoff
-  ).length;
+  const forgotten = bookmarks.filter((b) => !b.favorite && !b.archived && effectiveDate(b) < cutoff).length;
   const activity = Math.round(20 * (1 - Math.min(1, forgotten / total)));
 
   const foldered = bookmarks.filter((b) => b.folder);
@@ -140,9 +138,37 @@ export function computeHealthScore(
   };
 }
 
+/** "Forgotten" means not touched (added or last marked "still useful") since the cutoff. */
+export function effectiveDate(bookmark: Bookmark): number {
+  return Math.max(bookmark.dateAdded ?? bookmark.importedAt, bookmark.lastReviewedAt ?? 0);
+}
+
 export function getForgottenBookmarks(bookmarks: Bookmark[], thresholdDays: number): Bookmark[] {
   const cutoff = Date.now() - thresholdDays * DAY_MS;
   return bookmarks
-    .filter((b) => !b.archived && (b.dateAdded ?? b.importedAt) < cutoff)
-    .sort((a, b) => (a.dateAdded ?? a.importedAt) - (b.dateAdded ?? b.importedAt));
+    .filter((b) => !b.archived && effectiveDate(b) < cutoff)
+    .sort((a, b) => effectiveDate(a) - effectiveDate(b));
+}
+
+export interface MonthlyCount {
+  label: string;
+  count: number;
+}
+
+export function getMonthlyGrowth(bookmarks: Bookmark[], months = 6): MonthlyCount[] {
+  const now = new Date();
+  const buckets: MonthlyCount[] = [];
+  for (let i = months - 1; i >= 0; i--) {
+    const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
+    buckets.push({ label: d.toLocaleDateString(undefined, { month: 'short' }), count: 0 });
+  }
+  const rangeStart = new Date(now.getFullYear(), now.getMonth() - (months - 1), 1).getTime();
+  for (const bookmark of bookmarks) {
+    const timestamp = bookmark.dateAdded ?? bookmark.importedAt;
+    if (timestamp < rangeStart) continue;
+    const d = new Date(timestamp);
+    const index = (d.getFullYear() - now.getFullYear()) * 12 + (d.getMonth() - now.getMonth()) + (months - 1);
+    if (index >= 0 && index < months) buckets[index].count += 1;
+  }
+  return buckets;
 }

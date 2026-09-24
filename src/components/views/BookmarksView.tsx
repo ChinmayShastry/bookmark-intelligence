@@ -14,14 +14,20 @@ interface BookmarksViewProps {
   initialQuery: string;
   title: string;
   presetFilters?: Partial<BookmarkFilters>;
+  idFilter?: Set<string>;
 }
 
-export function BookmarksView({ initialQuery, title, presetFilters }: BookmarksViewProps) {
-  const bookmarks = useAppState((s) => s.bookmarks);
+export function BookmarksView({ initialQuery, title, presetFilters, idFilter }: BookmarksViewProps) {
+  const allBookmarks = useAppState((s) => s.bookmarks);
   const categories = useAppState((s) => s.categories);
   const tags = useAppState((s) => s.tags);
   const settings = useAppState((s) => s.settings);
   const store = useAppStore();
+
+  const bookmarks = useMemo(
+    () => (idFilter ? allBookmarks.filter((b) => idFilter.has(b.id)) : allBookmarks),
+    [allBookmarks, idFilter]
+  );
 
   const [filters, setFilters] = useState<BookmarkFilters>({ ...DEFAULT_FILTERS, ...presetFilters });
   const [selected, setSelected] = useState<Set<string>>(new Set());

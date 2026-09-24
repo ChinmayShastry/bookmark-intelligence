@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { X, Copy, Star, Archive, ArchiveRestore, Trash2, BookOpenCheck, Plus, Sparkles } from 'lucide-react';
+import { X, Copy, Star, Archive, ArchiveRestore, Trash2, BookOpenCheck, Plus, Sparkles, Layers } from 'lucide-react';
 import { useAppState, useAppStore } from '../../lib/store/hooks';
 import { classifyBookmark } from '../../lib/classifier';
 import { SafeExternalLink } from '../common/SafeExternalLink';
@@ -15,6 +15,7 @@ export function BookmarkDetailPanel({ bookmark, onClose }: BookmarkDetailPanelPr
   const store = useAppStore();
   const categories = useAppState((s) => s.categories);
   const tags = useAppState((s) => s.tags);
+  const collections = useAppState((s) => s.collections);
   const [title, setTitle] = useState('');
   const [notes, setNotes] = useState('');
   const [tagDraft, setTagDraft] = useState('');
@@ -71,6 +72,15 @@ export function BookmarkDetailPanel({ bookmark, onClose }: BookmarkDetailPanelPr
     void store.updateBookmark(bookmark.id, {
       categories: has ? bookmark.categories.filter((c) => c !== id) : [...bookmark.categories, id],
     });
+  };
+  const toggleCollection = (collectionId: string) => {
+    const collection = collections.find((c) => c.id === collectionId);
+    if (!collection) return;
+    const has = collection.bookmarkIds.includes(bookmark.id);
+    const bookmarkIds = has
+      ? collection.bookmarkIds.filter((id) => id !== bookmark.id)
+      : [...collection.bookmarkIds, bookmark.id];
+    void store.updateCollectionBookmarks(collectionId, bookmarkIds);
   };
   const copyUrl = async () => {
     try {
@@ -225,6 +235,31 @@ export function BookmarkDetailPanel({ bookmark, onClose }: BookmarkDetailPanelPr
               </div>
             )}
           </Section>
+
+          {collections.length > 0 && (
+            <Section title="Collections">
+              <div className="flex flex-wrap gap-1.5">
+                {collections.map((collection) => {
+                  const active = collection.bookmarkIds.includes(bookmark.id);
+                  return (
+                    <button
+                      key={collection.id}
+                      type="button"
+                      onClick={() => toggleCollection(collection.id)}
+                      className={`flex items-center gap-1 rounded-full border px-2.5 py-1 text-xs font-medium transition ${
+                        active
+                          ? 'border-brand-300 bg-brand-50 text-brand-700 dark:border-brand-500/40 dark:bg-brand-500/15 dark:text-brand-300'
+                          : 'border-ink-200 text-ink-500 dark:border-ink-700 dark:text-ink-400'
+                      }`}
+                    >
+                      <Layers size={11} aria-hidden="true" />
+                      {collection.name}
+                    </button>
+                  );
+                })}
+              </div>
+            </Section>
+          )}
 
           {bookmark.folder && (
             <Section title="Original folder">

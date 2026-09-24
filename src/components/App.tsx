@@ -19,6 +19,10 @@ import { CategoriesView } from './views/CategoriesView';
 import { TagsView } from './views/TagsView';
 import { DuplicatesView } from './views/DuplicatesView';
 import { DomainsView } from './views/DomainsView';
+import { InsightsView } from './views/InsightsView';
+import { ForgottenView } from './views/ForgottenView';
+import { ReadingQueueView } from './views/ReadingQueueView';
+import { CollectionsView } from './views/CollectionsView';
 
 function isTypingTarget(target: EventTarget | null): boolean {
   const el = target as HTMLElement | null;
@@ -52,15 +56,15 @@ function ViewRouter({
     case 'import':
       return <ImportView onFinished={() => {}} />;
     case 'collections':
-      return <PlaceholderView title="Collections" />;
+      return <CollectionsView selectedId={params.get('id')} onNavigate={onNavigate} />;
     case 'reading-queue':
-      return <PlaceholderView title="Reading Queue" />;
+      return <ReadingQueueView />;
     case 'insights':
-      return <PlaceholderView title="Insights" />;
+      return <InsightsView onNavigate={onNavigate} />;
     case 'duplicates':
       return <DuplicatesView />;
     case 'forgotten':
-      return <PlaceholderView title="Forgotten" />;
+      return <ForgottenView />;
     case 'domains':
       return <DomainsView onNavigate={onNavigate} />;
     case 'tags':

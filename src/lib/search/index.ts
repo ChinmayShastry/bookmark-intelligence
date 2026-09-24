@@ -1,5 +1,6 @@
 import Fuse from 'fuse.js';
 import { findDuplicateGroups } from '../duplicates';
+import { effectiveDate } from '../selectors/stats';
 import type { Bookmark, Category, Tag } from '../db/types';
 import { parseSearchQuery, type SearchFilters } from './queryParser';
 
@@ -145,7 +146,7 @@ export function searchBookmarks(rawQuery: string, ctx: SearchContext): Bookmark[
   }
   if (parsed.old) {
     const cutoff = Date.now() - ctx.forgottenThresholdDays * 24 * 60 * 60 * 1000;
-    candidates = candidates.filter((b) => (b.dateAdded ?? b.importedAt) < cutoff);
+    candidates = candidates.filter((b) => effectiveDate(b) < cutoff);
   }
 
   if (!parsed.freeText) {

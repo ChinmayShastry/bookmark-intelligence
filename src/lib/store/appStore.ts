@@ -294,6 +294,15 @@ export class AppStore {
     this.setState({ collections: this.state.collections.filter((c) => c.id !== id) });
   }
 
+  async updateCollectionBookmarks(id: string, bookmarkIds: string[]): Promise<void> {
+    const collection = this.state.collections.find((c) => c.id === id);
+    if (!collection) return;
+    const updated = { ...collection, bookmarkIds };
+    const db = await getDB();
+    await db.put('collections', updated);
+    this.setState({ collections: this.state.collections.map((c) => (c.id === id ? updated : c)) });
+  }
+
   // ---------------- settings ----------------
 
   async updateSettings(patch: Partial<AppSettings>): Promise<void> {

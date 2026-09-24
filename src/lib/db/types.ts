@@ -17,6 +17,7 @@ export interface Bookmark {
   importedAt: number;
   lastModified: number;
   lastOpenedAt?: number;
+  lastReviewedAt?: number;
   source: 'import' | 'manual' | 'demo';
 }
 
